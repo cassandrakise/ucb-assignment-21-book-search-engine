@@ -1,7 +1,7 @@
 const { gql } = require('apollo-server-express');
 
 
-// below definitions of each variable are guesses based on description
+// below definitions of each variable are guesses based on description -- image definition inside book should be revisited
 const typeDefs = gql` 
     type User {
         _id: ID
@@ -11,9 +11,8 @@ const typeDefs = gql`
         savedBooks: []
     }
     
-    // image def needs to be revisited
     type Book {
-        bookdId: ID
+        bookId: ID
         authors: []
         description: String
         title: String
