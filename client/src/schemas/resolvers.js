@@ -18,10 +18,10 @@ const resolvers = {
 // Define the functions that will fulfill the mutations
 
 Mutation: { // REVISIT: unsure if the variables in mutation are correctly established
-        addUser: async (parent, { name, userCount}) => {
+        addUser: async (parent, { username, email, password}) => {
 
-            // Create and return the new School object
-            return await User.create({ name, userCount });
+            // Create and return the new User object
+            return await User.create({ username, email, password });
         },
     },
 };
