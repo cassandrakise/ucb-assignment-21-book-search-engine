@@ -4,6 +4,7 @@ import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'reac
 import Auth from '../utils/auth';
 import { saveBook, searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+import { SAVE_BOOK } from '../utils/mutations';
 
 const SearchBooks = () => {
   // create state for holding returned google api data
@@ -53,6 +54,10 @@ const SearchBooks = () => {
   };
 
   // create function to handle saving a book to our database
+  // is this function/useMutation titled correctly/in the right spot?? Ask Jehyun
+function saveBook() {
+  const [] = useMutation(SAVE_BOOK);
+}
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
