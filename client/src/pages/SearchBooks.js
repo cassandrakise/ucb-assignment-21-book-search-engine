@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useMutation } from '@apollo/client';
 import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks } from '../utils/API';
+import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 import { SAVE_BOOK } from '../utils/mutations';
 
@@ -14,6 +15,11 @@ const SearchBooks = () => {
 
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
+  
+  // line below causes an error -- connect with Mark 
+  const [saveBook, {error} ] = useMutation(SAVE_BOOK);
+  // const saveBook = () => {}
+   // working with CP on this -- locate in next 1:1
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
@@ -55,9 +61,6 @@ const SearchBooks = () => {
 
   // create function to handle saving a book to our database
   // is this function/useMutation titled correctly/in the right spot?? Ask Jehyun
-function saveBook() {
-  const [] = useMutation(SAVE_BOOK);
-}
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
@@ -70,11 +73,11 @@ function saveBook() {
     }
 
     try {
-      const response = await saveBook(bookToSave, token);
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+    //   const response = await saveBook(bookToSave, token);
+      saveBook(bookToSave)
+      // if (!response.ok) {
+      //   throw new Error('something went wrong!');
+      // }
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);

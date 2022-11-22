@@ -2,10 +2,17 @@ import { gql } from '@apollo/client';
 
 
 // based on instructions from bootcampspot, not sure what this is referencing, what should go inside object
-export const QUERY GET_ME = gql`
+export const GET_ME = gql`
     query me {
+        _id
+        name
+        email
+        bookCount
+        savedBooks
+    }
+`;
 
-    }`
+
 
 
 // example from mini project below
