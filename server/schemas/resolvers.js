@@ -1,10 +1,13 @@
-const { getContext } = require('lighthouse/lighthouse-core/lib/sentry');
 const { User, Book } = require('../models');
+const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: { // REVISIT: unsure as to whether the relationship b/n users and books is properly established
         me: async (parent, args, context) => {
+          if(context.user){
             return await User.findOne({_id: context.user._id})
+          }
+          throw new Error('Not logged in')
         }
         // users: async () => {
         //     return await User.find({}).populate('books').populate({
@@ -25,7 +28,23 @@ Mutation: { // REVISIT: unsure if the variables in mutation are correctly establ
         addUser: async (parent, { username, email, password}) => {
 
             // Create and return the new User object
-            return await User.create({ username, email, password });
+            const user = await User.create({ username, email, password });
+            const token = signToken(user);
+            return { token, user }
+        },
+        login: async (parent, { email, password}) => {
+          const user = await User.findOne({ email });
+
+          if(!user) {
+            throw 'there is not user';
+          }
+          const correctPW = await user.isCorrectPassword(password);
+          if(!correctPW){
+            throw 'pw error'
+          }
+          const token = signToken(user);
+          return { token, user };
+
         },
         saveBook: async (parent, { bookData }, context) => {
             if (context.user) {
