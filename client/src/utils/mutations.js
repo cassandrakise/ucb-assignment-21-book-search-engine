@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-// check mutation logics with Jehyun
 
 
 export const LOGIN_USER = gql`
@@ -14,11 +13,13 @@ export const LOGIN_USER = gql`
 export const ADD_USER = gql`
     mutation addUser($username: String!, $email: String!, $password: String!) {
         addUser(username: $username, email: $email, password: $password) {
-            _id
-            name
-            email
-            bookCount
-            savedBooks
+            token
+            user {
+              username
+              email
+              bookCount
+              _id
+            }
         }
     }
 `;

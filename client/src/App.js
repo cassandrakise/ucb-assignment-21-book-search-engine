@@ -21,7 +21,7 @@ const authLink = setContext((_, { headers }) => {
 })
 
 const client = new ApolloClient({
-  uri: authLink.concat(httpLink),
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
@@ -32,9 +32,9 @@ function App() {
       <>
         <Navbar />
         <Routes>
-          <Route exact path='/' component={SearchBooks} />
-          <Route exact path='/saved' component={SavedBooks} />
-          <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
+          <Route path='/' element={<SearchBooks />} />
+          <Route exact path='/saved' element={<SavedBooks />} />
+          <Route element={<h1 className='display-2'>Wrong page!</h1>} />
         </Routes>
       </>
     </Router>
