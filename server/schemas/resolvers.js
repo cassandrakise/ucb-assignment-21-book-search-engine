@@ -9,17 +9,6 @@ const resolvers = {
           }
           throw new Error('Not logged in')
         }
-        // users: async () => {
-        //     return await User.find({}).populate('books').populate({
-        //         path: 'books',
-        //     });
-        // },
-        // books: async () => {
-        //     return await Book.find({}).populate('users');
-        // },
-        // book: async (parent, args) => {
-        //     return await User.findbyId(args.id).populate('users');
-        // },
     },
 
 // Define the functions that will fulfill the mutations
@@ -59,6 +48,19 @@ Mutation: { // REVISIT: unsure if the variables in mutation are correctly establ
       
             throw new AuthenticationError('You need to be logged in!');
           },
+        removeBook: async (parent, {bookId}, context) => {
+          if (context.user) {
+            const updatedBook = await User.
+            findOneAndUpdate(
+              { _id: context.user._id},
+              { $pull: { savedBooks: {bookId} }},
+              { new: true}
+            );
+
+            return updatedBook;
+          }
+          throw new AuthenticationError('You need to be logged in!');
+        }
     },
 };
 

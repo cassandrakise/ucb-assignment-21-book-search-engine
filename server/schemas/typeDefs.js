@@ -16,7 +16,7 @@ const typeDefs = gql`
         authors: [String]
         description: String
         title: String
-        image: [String]
+        image: String
         link: String
     }
 
